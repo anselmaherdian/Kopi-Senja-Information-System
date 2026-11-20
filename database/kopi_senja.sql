@@ -1,4 +1,3 @@
-
 CREATE DATABASE kopi_senja;
 USE kopi_senja;
 
