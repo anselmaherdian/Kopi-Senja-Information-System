@@ -129,3 +129,24 @@ CREATE TABLE stok_cabang (
     FOREIGN KEY (id_bahan)
     REFERENCES bahan_baku(id_bahan)
 ) ENGINE=InnoDB;
+
+
+-- QUERY LAPORAN PENJUALAN PER CABANG
+SELECT
+    c.nama_cabang,
+    DATE(p.tanggal) AS tanggal_penjualan,
+    COUNT(p.id_pesanan) AS jumlah_transaksi,
+    SUM(p.total) AS total_penjualan
+FROM cabang c
+JOIN pesanan p
+    ON c.id_cabang = p.id_cabang
+JOIN pembayaran b
+    ON p.id_pesanan = b.id_pesanan
+WHERE b.status = 'Berhasil'
+GROUP BY
+    c.id_cabang,
+    c.nama_cabang,
+    DATE(p.tanggal)
+ORDER BY
+    tanggal_penjualan DESC,
+    c.nama_cabang;
